@@ -1,7 +1,8 @@
 const { Category } = require('../model/category')
 const router = require('express').Router()
 
-router.get('/categories', async (req, res) => {
+//Get all categories
+router.get('/', async (req, res) => {
   const categoryList = await Category.find()
 
   if (!categoryList) {
@@ -9,8 +10,25 @@ router.get('/categories', async (req, res) => {
   }
   res.status(201).send(categoryList)
 })
+//Get category by ID
+router.get('/:id', async (req, res) => {
+  const categoryId = await Category.findById(req.params.id)
+  try {
+    if (categoryId) {
+      res.status(200).send(categoryId)
+    }
+    if (!categoryId) {
+      res.status(500).send({ message: 'Catogory not found' })
+    }
+  } catch (err) {
+    res.status(500).send((err) => {
+      console.error(err)
+    })
+  }
+})
 
-router.post('/categories', async (req, res) => {
+//Create new category
+router.post('/', async (req, res) => {
   const category = new Category({
     name: req.body.name,
     icon: req.body.icon,
@@ -29,8 +47,27 @@ router.post('/categories', async (req, res) => {
   }
 })
 
-router.delete('/categories/:id', async (req, res) => {
-  let category = await Category.findByIdAndRemove(req.params.id)
+//Update category
+
+router.put('/:id', async (req, res) => {
+  const category = await Category.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      icon: req.body.icon,
+      color: req.body.color,
+    },
+    { new: true },
+  )
+
+  if (!category) {
+    return res.status(400).send('the category cannot be updated')
+  }
+  res.status(200).send('the category has been updated')
+})
+//Delete category
+router.delete('/:id', async (req, res) => {
+  const category = await Category.findByIdAndRemove(req.params.id)
 
   try {
     if (category) {

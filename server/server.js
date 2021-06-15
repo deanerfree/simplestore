@@ -17,8 +17,8 @@ app.use(morgan('tiny'))
 app.use(cors())
 //option * permits requests to the entire server otherwise set routes for specific
 app.options('*', cors())
-app.use(api, productRoutes)
-app.use(api, categories)
+app.use(`${api}/products`, productRoutes)
+app.use(`${api}/categories`, categories)
 //Connect to DB
 mongoose
   .connect(process.env.MONGODB, {
