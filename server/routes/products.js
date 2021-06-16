@@ -6,8 +6,12 @@ const { Product } = require('../model/productSchema')
 //Type GET
 //Find all product names and images except the id in the DB
 router.get('/', async (req, res) => {
-  const productList = await Product.find()
-    .select('name image category')
+  let filter = {}
+  if (req.query.categories) {
+    filter = { category: req.query.categories.split(',') }
+  }
+  const productList = await Product.find(filter)
+    // .select('name image category')
     .populate('category')
   res.send(productList)
 })
@@ -113,6 +117,35 @@ router.delete('/:id', async (req, res) => {
     if (!product) {
       res.status(404).json({ success: false, message: 'Product not found' })
     }
+  } catch (err) {
+    res.status(400).json({ success: false, message: err })
+  }
+})
+
+//GET
+//Request a count of all the items
+router.get('/get/count', async (req, res) => {
+  productCount = await Product.countDocuments((count) => count)
+  try {
+    if (!productCount) {
+      res.status(404).json({ success: false, message: 'product not found' })
+    }
+    res.send({ productCount })
+  } catch (err) {
+    res.status(400).json({ success: false, message: err })
+  }
+})
+
+//GET
+//Return only a certain amount of products based on the number wanted
+router.get('/get/featured/:count', async (req, res) => {
+  count = req.params.count ? req.params.count : 0
+  products = await Product.find({ isFeatured: true }).limit(+count)
+  try {
+    if (!products) {
+      res.status(404).json({ success: false, message: 'product not found' })
+    }
+    res.send({ products })
   } catch (err) {
     res.status(400).json({ success: false, message: err })
   }
