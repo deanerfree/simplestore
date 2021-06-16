@@ -20,10 +20,12 @@ app.options('*', cors())
 app.use(`${api}/products`, productRoutes)
 app.use(`${api}/categories`, categories)
 //Connect to DB
+//useFindAndModify set to false due to depreciation when using findById
 mongoose
   .connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
     dbName: 'simpleshop',
   })
   .then(() => console.log('Connected to DB'))
