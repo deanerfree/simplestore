@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const mongoose = require('mongoose')
 const { Category } = require('../model/category')
 const { Product } = require('../model/productSchema')
 
@@ -17,6 +18,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const productId = await Product.findById(req.params.id).populate('category')
   try {
+    if (mongoose.isValidObjectId(req.params.id)) {
+      res.status(400).send('Invalid ID')
+    }
     if (productId) {
       res.status(200).send(productId)
     }
@@ -83,6 +87,9 @@ router.put('/:id', async (req, res) => {
   )
 
   try {
+    if (mongoose.isValidObjectId(req.params.id)) {
+      res.status(400).send('Invalid ID')
+    }
     if (!product) {
       return res.status(500).send('Product cannot be updated')
     }
