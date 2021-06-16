@@ -20,9 +20,11 @@ const productSchema = new mongoose.Schema({
       default: '',
     },
   ],
+  brand: {
+    type: String,
+    default: '',
+  },
   countInStock: { type: Number, required: true, min: 0, max: 255 },
-  rating: { type: Number, default: 0 },
-  numReviews: { type: Number, default: 0 },
   price: {
     type: Number,
     default: 0,
@@ -32,6 +34,8 @@ const productSchema = new mongoose.Schema({
     ref: 'Category',
     required: true,
   },
+  rating: { type: Number, default: 0 },
+  numReviews: { type: Number, default: 0 },
   isFeatured: {
     type: Boolean,
     default: false,
