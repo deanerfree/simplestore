@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema({
   apartment: { type: String, default: '' },
   city: { type: String, default: '' },
   zip: { type: Number, default: 0 },
-  country: { type: String, required: true },
-  phone: { type: Number, default: 0 },
+  country: { type: String, default: '' },
+  phone: { type: String, default: '' },
   isAdmin: { type: Boolean, default: false },
 })
 
