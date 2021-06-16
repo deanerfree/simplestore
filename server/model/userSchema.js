@@ -7,10 +7,10 @@ const userSchema = new mongoose.Schema({
   street: { type: String, default: '' },
   apartment: { type: String, default: '' },
   city: { type: String, default: '' },
-  zip: {type: Number, default: 0}
+  zip: { type: Number, default: 0 },
   country: { type: String, required: true },
   phone: { type: Number, default: 0 },
-  isAdmin: { type: Boolean, required: false },
+  isAdmin: { type: Boolean, default: false },
 })
 
 //This bit of code will set _id to id
