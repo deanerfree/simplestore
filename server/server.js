@@ -6,6 +6,7 @@ require('dotenv/config')
 const app = express()
 const port = process.env.PORT
 const api = process.env.API_URL
+const authJwt = require('./helper/jwt')
 //routes
 const productRoutes = require('./routes/products')
 const categories = require('./routes/categories')
@@ -21,6 +22,7 @@ app.options('*', cors())
 app.use(`${api}/products`, productRoutes)
 app.use(`${api}/categories`, categories)
 app.use(`${api}/users`, userRoutes)
+app.use(authJwt)
 //Connect to DB
 //useFindAndModify set to false due to depreciation when using findById
 mongoose

@@ -59,6 +59,8 @@ router.post('/', async (req, res) => {
   }
 })
 
+//POST
+//Log users in
 router.post('/login', async (req, res) => {
   const user = await User.findOne({ email: req.body.email })
 
@@ -67,7 +69,14 @@ router.post('/login', async (req, res) => {
       return res.status(400).send('User is not found')
     }
     if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
-      res.status(200).send('User Authenticated')
+      const token = jwt.sign(
+        {
+          userId: user.id,
+        },
+        process.env.TOKEN,
+      )
+
+      res.status(200).send({ user: user.email, token: token })
     } else {
       res.status(400).send('Invalid Password')
     }
