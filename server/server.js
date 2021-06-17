@@ -1,9 +1,10 @@
 const express = require('express')
+const app = express()
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv/config')
-const app = express()
+app.use(cors())
 const port = process.env.PORT
 const api = process.env.API_URL
 const authJwt = require('./helper/jwt')
@@ -16,13 +17,12 @@ const userRoutes = require('./routes/users')
 app.use(express.json())
 //morgan is used to log the requests
 app.use(morgan('tiny'))
-app.use(cors())
+app.use(authJwt())
 //option * permits requests to the entire server otherwise set routes for specific
 app.options('*', cors())
 app.use(`${api}/products`, productRoutes)
 app.use(`${api}/categories`, categories)
 app.use(`${api}/users`, userRoutes)
-app.use(authJwt)
 //Connect to DB
 //useFindAndModify set to false due to depreciation when using findById
 mongoose

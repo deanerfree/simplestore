@@ -6,14 +6,14 @@ const { Product } = require('../model/productSchema')
 //Type GET
 //Find all product names and images except the id in the DB
 router.get('/', async (req, res) => {
-  let filter = {}
-  if (req.query.categories) {
-    filter = { category: req.query.categories.split(',') }
+  try {
+    const productList = await Product.find()
+    res.send(productList)
+  } catch (err) {
+    res.status(500).send((err) => {
+      console.error(err)
+    })
   }
-  const productList = await Product.find(filter)
-    // .select('name image category')
-    .populate('category')
-  res.send(productList)
 })
 
 //Type GET
