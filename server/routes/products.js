@@ -106,7 +106,7 @@ router.put('/:id', async (req, res) => {
 })
 
 //DELETE
-//Delete post
+//Delete product
 router.delete('/:id', async (req, res) => {
   const product = await Product.findByIdAndRemove(req.params.id)
 
