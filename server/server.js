@@ -8,6 +8,7 @@ app.use(cors())
 const port = process.env.PORT
 const api = process.env.API_URL
 const authJwt = require('./helper/jwt')
+const errHandler = require('./helper/errHandler')
 //routes
 const productRoutes = require('./routes/products')
 const categories = require('./routes/categories')
@@ -15,11 +16,12 @@ const userRoutes = require('./routes/users')
 
 //Middleware
 app.use(express.json())
+app.options('*', cors())
 //morgan is used to log the requests
 app.use(morgan('tiny'))
 app.use(authJwt())
+app.use(errHandler)
 //option * permits requests to the entire server otherwise set routes for specific
-app.options('*', cors())
 app.use(`${api}/products`, productRoutes)
 app.use(`${api}/categories`, categories)
 app.use(`${api}/users`, userRoutes)
