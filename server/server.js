@@ -13,6 +13,7 @@ const errHandler = require('./helper/errHandler')
 const productRoutes = require('./routes/products')
 const categories = require('./routes/categories')
 const userRoutes = require('./routes/users')
+const orderList = require('./routes/orders')
 
 //Middleware
 app.use(express.json())
@@ -25,6 +26,7 @@ app.use(errHandler)
 app.use(`${api}/products`, productRoutes)
 app.use(`${api}/categories`, categories)
 app.use(`${api}/users`, userRoutes)
+app.use(`${api}/orders`, orderList)
 //Connect to DB
 //useFindAndModify set to false due to depreciation when using findById
 mongoose
