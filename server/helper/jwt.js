@@ -12,6 +12,7 @@ const authJwt = () => {
       // { url: '/api/v1/products/*', methods: ['GET', 'OPTIONS'] },
       //We are using regular expressions because this will allow all requests under products to be excluded from needing a token
       // the(.*) allows to specify everything after the endpoint
+      { url: /\/public\/uploads(.*)/, methods: ['GET', 'OPTIONS'] },
       { url: /\/api\/v1\/products(.*)/, methods: ['GET', 'OPTIONS'] },
       { url: /\/api\/v1\/categories(.*)/, methods: ['GET', 'OPTIONS'] },
       '/api/v1/users/login',
